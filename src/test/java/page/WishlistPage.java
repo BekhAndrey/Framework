@@ -1,4 +1,5 @@
 package page;
+import model.Item;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,18 +15,24 @@ public class WishlistPage {
 
     private WebDriver driver;
     private final By closeDialogLocator = By.xpath("//button[@class=\"gl-modal__close\"]");
-    private final By wishlistResultLocator = By.xpath("//div[@class=\"col-s-12 col-l-16 col-xl-18 \"]/p");
+    private final By amountLocator = By.xpath("//div[@class=\"col-s-12 col-l-16 col-xl-18 \"]/p");
+    private final By itemNameLocator = By.xpath("//div[@class=\"gl-product-card__details-main\"]/span");
+    private final By itemPriceLocator = By.xpath("//div[@class=\"gl-product-card__details-main\"]/div");
 
     public WishlistPage(WebDriver driver){
         this.driver = driver;
     }
 
-    public String getWishlistResult(){
+    public Item getWishlistResult(){
         WebElement closeDialogBnt = new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.presenceOfElementLocated(closeDialogLocator));
         closeDialogBnt.click();
-        WebElement wishlistResult = new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(wishlistResultLocator));
-        return wishlistResult.getText();
+        String itemName = new WebDriverWait(driver, 10)
+                .until(ExpectedConditions.presenceOfElementLocated(itemNameLocator)).getText();
+        String itemPrice = new WebDriverWait(driver, 10)
+                .until(ExpectedConditions.presenceOfElementLocated(itemPriceLocator)).getText();
+        String amount = new WebDriverWait(driver, 10)
+                .until(ExpectedConditions.presenceOfElementLocated(amountLocator)).getText();
+        return new Item(itemName,null,null,itemPrice, amount);
     }
 }
