@@ -12,17 +12,9 @@ public class HoodiePage extends AbstractPage {
     private final By addToBagLocator = By.xpath("//button[@data-auto-id=\"add-to-bag\"]");
     private final By closeModalLocator = By.xpath("//button[@class=\"gl-modal__close\"]");
     private final By goToBagLocator = By.xpath("//button[@data-auto-id=\"view-bag-desktop\"]");
-    private final By deliveryValueLocator = By.xpath("//span[@data-auto-id=\"glass-cart-summary-delivery-value\"]");
     private final By addToWishlistLocator = By.xpath("//div[@data-auto-id=\"wishlist-button\"]");
     private final By goToWishlistLocator = By.xpath("//div[@class=\"right-side-menu___16Ik7\"]/div[3]");
-    private final By removeFromBagLocator = By.xpath("//button[@data-auto-id =\"glass-cart-line-item-delete\" ]");
-    private final By emptyBagLocator = By.xpath("//h3[@data-auto-id =\"glass-cart-empty-title\" ]");
     private final By noSizeSelectedLocator = By.xpath("//div[@class=\"scarcity-message___3reHV gl-vspace\" ]");
-    private final By itemNameLocator =By.xpath("//span[@data-auto-id=\"glass-cart-line-item-name\" ]");
-    private final By itemColorLocator =By.xpath("//span[@data-auto-id=\"cart-line-item-attribute-color\" ]");
-    private final By itemSizeLocator =By.xpath("//span[@data-auto-id=\"cart-line-item-attribute-size\" ]");
-    private final By itemPriceLocator =By.xpath("//div[@data-auto-id=\"glass-cart-line-item-price\" ]");
-    private final By itemAmountLocator =By.xpath("//span[@class=\"gl-dropdown-custom__select-label-text\" ]");
     private String url;
 
 
@@ -53,19 +45,20 @@ public class HoodiePage extends AbstractPage {
     }
 
     public HoodiePage addItemsToBag(){
-        WebElement selectSizeBtn = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(selectSizeLocator));
-        selectSizeBtn.click();
         WebElement addToBagBtn = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(addToBagLocator));
         addToBagBtn.click();
         return this;
     }
 
-    public String addItemsToBagWithoutSize(){
-        WebElement addToBagBtn = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(addToBagLocator));
-        addToBagBtn.click();
+    public HoodiePage selectItemSize(){
+        WebElement selectSizeBtn = new WebDriverWait(driver,10)
+                .until(ExpectedConditions.presenceOfElementLocated(selectSizeLocator));
+        selectSizeBtn.click();
+        return this;
+    }
+
+    public String getNoSizeSelectedMessage(){
         return new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(noSizeSelectedLocator)).getText();
     }
@@ -77,42 +70,10 @@ public class HoodiePage extends AbstractPage {
         return this;
     }
 
-    public HoodiePage goToBag(){
+    public BagPage openBagPage(){
         WebElement goToBagBtn = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(goToBagLocator));
         goToBagBtn.click();
-        return this;
-    }
-
-    public HoodiePage removeFromBag(){
-        WebElement removeFromBagBtn = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(removeFromBagLocator));
-        removeFromBagBtn.click();
-        return this;
-    }
-
-    public String getBagAmountText(){
-        return new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(emptyBagLocator)).getText();
-    }
-
-    public Item getBagItemsInfo(){
-        String itemName = new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(itemNameLocator)).getText();
-        String itemPrice = new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(itemPriceLocator)).getText();
-        String itemColor = new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(itemColorLocator)).getText();
-        String itemSize = new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(itemSizeLocator)).getText();
-        String itemAmount = new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(itemAmountLocator)).getText();
-        return new Item(itemName,itemColor,itemSize,itemPrice, itemAmount);
-    }
-
-    public String getDeliveryValue(){
-        WebElement deliveryValue = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(deliveryValueLocator));
-        return deliveryValue.getText();
+        return new BagPage(driver);
     }
 }

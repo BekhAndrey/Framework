@@ -1,15 +1,14 @@
 package test;
 
-import driver.DriverSingleton;
 import model.Item;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import page.HoodiePage;
+import page.SneakerPage;
 import service.ItemCreator;
+
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -32,8 +31,9 @@ public class AdidasTest extends CommonConditions {
         String expectedMessage = "YOUR BAG IS EMPTY";
         String emptyBagText = new HoodiePage(driver,"https://www.adidas.com/us/trefoil-hoodie/DT7963.html")
                 .openPage()
+                .selectItemSize()
                 .addItemsToBag()
-                .goToBag()
+                .openBagPage()
                 .removeFromBag()
                 .getBagAmountText();
         assertThat(emptyBagText, equalTo(expectedMessage));
@@ -44,7 +44,8 @@ public class AdidasTest extends CommonConditions {
         String expectedMessage = "Please select your size";
         String noSizeSelectedText = new HoodiePage(driver,"https://www.adidas.com/us/trefoil-hoodie/DT7963.html")
                 .openPage()
-                .addItemsToBagWithoutSize();
+                .addItemsToBag()
+                .getNoSizeSelectedMessage();
         assertThat(noSizeSelectedText, equalTo(expectedMessage));
     }
 
@@ -53,10 +54,11 @@ public class AdidasTest extends CommonConditions {
         Item expectedItemInfo = ItemCreator.withCredentialsFromPropertyForBag("second");
         Item bagItemInfo = new HoodiePage(driver,"https://www.adidas.com/us/trefoil-hoodie/DT7963.html")
                 .openPage()
+                .selectItemSize()
                 .addItemsToBag()
                 .closeModal()
                 .addItemsToBag()
-                .goToBag()
+                .openBagPage()
                 .getBagItemsInfo();
         assertThat(bagItemInfo, equalTo(expectedItemInfo));
     }
@@ -66,11 +68,32 @@ public class AdidasTest extends CommonConditions {
         String expectedDeliveryValue = "FREE";
         String deliveryValue = new HoodiePage(driver,"https://www.adidas.com/us/trefoil-hoodie/DT7963.html")
                 .openPage()
+                .selectItemSize()
                 .addItemsToBag()
                 .closeModal()
                 .addItemsToBag()
-                .goToBag()
+                .openBagPage()
                 .getDeliveryValue();
         Assert.assertEquals(deliveryValue, expectedDeliveryValue);
+    }
+
+    @Test
+    public void colorFilterTest(){
+        String expectedColor = "Purple";
+        String selectedItemColor = new SneakerPage(driver,"https://www.adidas.com/us/men-shoes")
+                .openPage()
+                .applyColorFilter()
+                .openItemWithFilter()
+                .getItemColor();
+        Assert.assertTrue(selectedItemColor.contains(expectedColor));
+    }
+
+    @Test
+    public void sortByPriceTest(){
+        List<Integer> itemsPriceList = new SneakerPage(driver,"https://www.adidas.com/us/men-shoes")
+                .openPage()
+                .sortByPrice()
+                .getItemsPriceList();
+        Assert.assertTrue(itemsPriceList.get(0) >=itemsPriceList.get(1));
     }
 }
