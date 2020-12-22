@@ -1,11 +1,14 @@
 package test;
 
 import model.Item;
+import model.User;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import page.ProductPage;
 import page.CatalogPage;
+import page.ProductPage;
 import service.ProductCreator;
+import service.UserCreator;
 
 import java.util.List;
 
@@ -74,7 +77,7 @@ public class AdidasTest extends CommonConditions {
                 .addItemsToBag()
                 .openBagPage()
                 .getDeliveryValue();
-        Assert.assertEquals(deliveryValue, expectedDeliveryValue);
+        assertThat(deliveryValue, equalTo(expectedDeliveryValue));
     }
 
     @Test
@@ -85,7 +88,7 @@ public class AdidasTest extends CommonConditions {
                 .applyColorFilter()
                 .openItemWithFilter()
                 .getItemColor();
-        Assert.assertTrue(selectedItemColor.contains(expectedColor));
+        assertThat(selectedItemColor, containsString(expectedColor));
     }
 
     @Test
@@ -94,7 +97,7 @@ public class AdidasTest extends CommonConditions {
                 .openPage()
                 .sortByPrice()
                 .getItemsPriceList();
-        Assert.assertTrue(itemsPriceList.get(0) >=itemsPriceList.get(1));
+        assertThat(itemsPriceList.get(0), greaterThanOrEqualTo(itemsPriceList.get(1)));
     }
 
     @Test
@@ -121,6 +124,21 @@ public class AdidasTest extends CommonConditions {
                 .openBagPage()
                 .applyCoupon("ADPRHS18")
                 .getOriginalAndTotalPrice();
-        Assert.assertTrue(originalAndNewPrice.get(0) > originalAndNewPrice.get(1));
+        assertThat(originalAndNewPrice.get(0), greaterThan(originalAndNewPrice.get(1)));
+    }
+
+    @Test
+    public void wrongDeliveryCredentialsTest(){
+        User user = UserCreator.withIncorrectAddress();
+        List<WebElement> credentialsErrorsList = new ProductPage(driver,"https://www.adidas.com/us/trefoil-hoodie/DT7963.html")
+                .openPage()
+                .selectItemSize("M")
+                .addItemsToBag()
+                .openBagPage()
+                .openCheckoutPage()
+                .enterCredentials(user)
+                .getAddressMessage();
+        Assert.assertTrue(credentialsErrorsList.size() >0);
+        assertThat(credentialsErrorsList, not(empty()));
     }
 }

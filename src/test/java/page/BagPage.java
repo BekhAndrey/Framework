@@ -31,6 +31,7 @@ public class BagPage {
     private final By originalPriceLocator = By.xpath("//div[@data-auto-id = \"glass-cart-product-total\"]/span[2]");
     private final By newPriceLocator = By.xpath("//span[@data-auto-id = \"glass-cart-summary-product-value\"]");
     private final By payPalLocator = By.xpath("//img[@alt = \"PayPal\"]");
+    private final By checkoutBtnLocator = By.xpath("//button[@data-auto-id = \"glass-checkout-button-bottom\"]");
 
     public BagPage(WebDriver driver){
         this.driver = driver;
@@ -86,7 +87,15 @@ public class BagPage {
                 .until(ExpectedConditions.presenceOfElementLocated(originalPriceLocator)));
         webElements.add(new WebDriverWait(driver,20)
                 .until(ExpectedConditions.presenceOfElementLocated(newPriceLocator)));
-        List<Double> priceList = Resolver.getPriceList(webElements, "Double");
-        return priceList;
+        return Resolver.getPriceList(webElements, "Double");
+    }
+
+    public CheckoutPage openCheckoutPage(){
+        new WebDriverWait(driver,10)
+                .until(ExpectedConditions.presenceOfElementLocated(payPalLocator));
+        WebElement checkoutBtn = new WebDriverWait(driver,10)
+                .until(ExpectedConditions.presenceOfElementLocated(checkoutBtnLocator));
+        checkoutBtn.click();
+        return new CheckoutPage(driver);
     }
 }

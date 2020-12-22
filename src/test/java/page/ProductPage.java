@@ -21,9 +21,9 @@ public class ProductPage extends AbstractPage {
     private String url;
 
 
-    public ProductPage(WebDriver driver, String hoodieUrl){
+    public ProductPage(WebDriver driver, String productUrl){
         super(driver);
-        this.url = hoodieUrl;
+        this.url = productUrl;
     }
 
     public ProductPage(WebDriver driver){
