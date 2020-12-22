@@ -86,7 +86,7 @@ public class BagPage {
                 .until(ExpectedConditions.presenceOfElementLocated(originalPriceLocator)));
         webElements.add(new WebDriverWait(driver,20)
                 .until(ExpectedConditions.presenceOfElementLocated(newPriceLocator)));
-        List<Double> priceList = Resolver.getDoublePriceList(webElements);
+        List<Double> priceList = Resolver.getPriceList(webElements, "Double");
         return priceList;
     }
 }
