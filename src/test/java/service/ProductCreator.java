@@ -3,7 +3,7 @@ package service;
 import model.Item;
 import static util.Resolver.resolveTemplate;
 
-public class ItemCreator {
+public class ProductCreator {
 
     public static final String NAME = "testdata.item.%s.name";
     public static final String COLOR = "testdata.item.%s.color";

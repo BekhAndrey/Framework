@@ -1,36 +1,43 @@
 package page;
-import model.Item;
+import static util.Resolver.resolveTemplate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class HoodiePage extends AbstractPage {
+public class ProductPage extends AbstractPage {
 
     private final By selectSizeLocator = By.xpath("//button[@data-di-id=\"size_M\"]");
+    private  By testSizeLocator;
     private final By addToBagLocator = By.xpath("//button[@data-auto-id=\"add-to-bag\"]");
     private final By closeModalLocator = By.xpath("//button[@class=\"gl-modal__close\"]");
     private final By goToBagLocator = By.xpath("//button[@data-auto-id=\"view-bag-desktop\"]");
     private final By addToWishlistLocator = By.xpath("//div[@data-auto-id=\"wishlist-button\"]");
     private final By goToWishlistLocator = By.xpath("//div[@class=\"right-side-menu___16Ik7\"]/div[3]");
+    private final By itemByFilterColorLocator = By.xpath("//h5[@class= \"gl-label color___3xvLb\"]");
     private final By noSizeSelectedLocator = By.xpath("//div[@class=\"scarcity-message___3reHV gl-vspace\" ]");
+    private final By itemOutOfStockLocator = By.xpath("//div[@data-auto-id = \"cart-error-message\"]");
     private String url;
 
 
-    public HoodiePage(WebDriver driver, String hoodieUrl){
+    public ProductPage(WebDriver driver, String hoodieUrl){
         super(driver);
         this.url = hoodieUrl;
     }
 
+    public ProductPage(WebDriver driver){
+        super(driver);
+    }
+
     @Override
-    public HoodiePage openPage()
+    public ProductPage openPage()
     {
         driver.get(url);
         return this;
     }
 
-    public HoodiePage addItemToWishlist(){
+    public ProductPage addItemToWishlist(){
         WebElement addToWishlistBtn = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(addToWishlistLocator));
         addToWishlistBtn.click();
@@ -44,18 +51,25 @@ public class HoodiePage extends AbstractPage {
         return new WishlistPage(driver);
     }
 
-    public HoodiePage addItemsToBag(){
+    public ProductPage addItemsToBag(){
         WebElement addToBagBtn = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(addToBagLocator));
         addToBagBtn.click();
         return this;
     }
 
-    public HoodiePage selectItemSize(){
+    public ProductPage selectItemSize(String size){
+        String sizeXpath = resolveTemplate("//button[@class=\"gl-label size___TqqSo\"]/span[text() =\"%s\"]", size);
+        testSizeLocator = By.xpath(sizeXpath);
         WebElement selectSizeBtn = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(selectSizeLocator));
+                .until(ExpectedConditions.presenceOfElementLocated(testSizeLocator));
         selectSizeBtn.click();
         return this;
+    }
+
+    public String getItemColor(){
+        return new WebDriverWait(driver,10)
+                .until(ExpectedConditions.presenceOfElementLocated(itemByFilterColorLocator)).getText();
     }
 
     public String getNoSizeSelectedMessage(){
@@ -63,7 +77,7 @@ public class HoodiePage extends AbstractPage {
                 .until(ExpectedConditions.presenceOfElementLocated(noSizeSelectedLocator)).getText();
     }
 
-    public HoodiePage closeModal(){
+    public ProductPage closeModal(){
         WebElement closeModalBtn = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(closeModalLocator));
         closeModalBtn.click();
@@ -75,5 +89,10 @@ public class HoodiePage extends AbstractPage {
                 .until(ExpectedConditions.presenceOfElementLocated(goToBagLocator));
         goToBagBtn.click();
         return new BagPage(driver);
+    }
+
+    public String getOutOfStockMessage(){
+        return new WebDriverWait(driver,10)
+                .until(ExpectedConditions.presenceOfElementLocated(itemOutOfStockLocator)).getText();
     }
 }
