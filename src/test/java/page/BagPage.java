@@ -89,10 +89,8 @@ public class BagPage {
     }
 
     public CheckoutPage openCheckoutPage(){
-        new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(payPalLocator));
         WebElement checkoutBtn = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(checkoutBtnLocator));
+                .until(ExpectedConditions.elementToBeClickable(checkoutBtnLocator));
         checkoutBtn.click();
         return new CheckoutPage(driver);
     }
