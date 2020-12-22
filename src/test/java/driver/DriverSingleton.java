@@ -19,13 +19,13 @@ public class DriverSingleton {
                     WebDriverManager.firefoxdriver().setup();
                     driver = new FirefoxDriver();
                 }
-                case "chrome": {
-                    WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
-                }
-                default: {
+                case "Opera": {
                     WebDriverManager.operadriver().setup();
                     driver = new OperaDriver();
+                }
+                default: {
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
                 }
             }
             driver.manage().window().maximize();
