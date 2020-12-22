@@ -70,13 +70,13 @@ public class BagPage {
     }
 
     public BagPage applyCoupon(String coupon){
-        new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(payPalLocator));
+//        new WebDriverWait(driver,10)
+//                .until(ExpectedConditions.presenceOfElementLocated(payPalLocator));
         WebElement couponInputField = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(couponFieldLocator));
         couponInputField.sendKeys(coupon);
-        WebElement applyCouponBtn = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(applyCouponLocator));
+        WebElement applyCouponBtn = new WebDriverWait(driver,20)
+                .until(ExpectedConditions.elementToBeClickable(applyCouponLocator));
         applyCouponBtn.click();
         return this;
     }
