@@ -34,7 +34,7 @@ public class CatalogPage extends AbstractPage  {
 
     public CatalogPage applyColorFilter(){
         WebElement colorFilterBtn = new WebDriverWait(driver,20)
-                .until(ExpectedConditions.visibilityOfElementLocated(colorFilterLocator));
+                .until(ExpectedConditions.presenceOfElementLocated(colorFilterLocator));
         colorFilterBtn.click();
         WebElement colorBtn = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(colorLocator));
