@@ -70,8 +70,8 @@ public class BagPage {
     }
 
     public BagPage applyCoupon(String coupon){
-//        new WebDriverWait(driver,10)
-//                .until(ExpectedConditions.presenceOfElementLocated(payPalLocator));
+        new WebDriverWait(driver,10)
+                .until(ExpectedConditions.presenceOfElementLocated(payPalLocator));
         WebElement couponInputField = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(couponFieldLocator));
         couponInputField.sendKeys(coupon);
