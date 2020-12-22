@@ -59,8 +59,7 @@ public class ProductPage extends AbstractPage {
     }
 
     public ProductPage selectItemSize(String size){
-        String sizeXpath = resolveTemplate("//button[@class=\"gl-label size___TqqSo\"]/span[text() =\"%s\"]", size);
-        testSizeLocator = By.xpath(sizeXpath);
+        testSizeLocator = By.xpath(resolveTemplate("//button[@class=\"gl-label size___TqqSo\"]/span[text() =\"%s\"]", size));
         WebElement selectSizeBtn = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(testSizeLocator));
         selectSizeBtn.click();

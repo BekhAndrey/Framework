@@ -71,7 +71,7 @@ public class CatalogPage extends AbstractPage  {
 
     public List<Integer> getItemsPriceList(){
         List<Integer> priceList = Resolver.getPriceList(new WebDriverWait(driver,20)
-              .until(ExpectedConditions.presenceOfAllElementsLocatedBy(itemsPriceLocator)), "Integer");
+              .until(ExpectedConditions.numberOfElementsToBeMoreThan(itemsPriceLocator,1)), "Integer");
         return priceList;
     }
 }

@@ -15,7 +15,7 @@ public class WishlistPage {
 
     private WebDriver driver;
     private final By closeDialogLocator = By.xpath("//button[@class=\"gl-modal__close\"]");
-    private final By amountLocator = By.xpath("//div[@class=\"col-s-12 col-l-16 col-xl-18 \"]/p");
+    private final By amountLocator = By.xpath("//div[@data-auto-id=\"my-wishlist-view-container\"]/p");
     private final By itemNameLocator = By.xpath("//div[@class=\"gl-product-card__details-main\"]/span");
     private final By itemPriceLocator = By.xpath("//div[@class=\"gl-product-card__details-main\"]/div");
 
