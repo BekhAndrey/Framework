@@ -27,10 +27,9 @@ public class BagPage {
     private final By emptyBagLocator = By.xpath("//h3[@data-auto-id =\"glass-cart-empty-title\" ]");
     private final By deliveryValueLocator = By.xpath("//span[@data-auto-id=\"glass-cart-summary-delivery-value\"]");
     private final By couponFieldLocator = By.xpath("//input[@class = \"gl-input__field\"]");
-    private final By applyCouponLocator = By.xpath("//button[@data-auto-id = \"glass-coupon-button-submit\"]");
+    private final By applyCouponLocator = By.xpath("//button[@type=\"submit\"]");
     private final By originalPriceLocator = By.xpath("//div[@data-auto-id = \"glass-cart-product-total\"]/span[2]");
     private final By newPriceLocator = By.xpath("//span[@data-auto-id = \"glass-cart-summary-product-value\"]");
-    private final By payPalLocator = By.xpath("//img[@alt = \"PayPal\"]");
     private final By checkoutBtnLocator = By.xpath("//button[@data-auto-id = \"glass-checkout-button-bottom\"]");
 
     public BagPage(WebDriver driver){
@@ -70,13 +69,11 @@ public class BagPage {
     }
 
     public BagPage applyCoupon(String coupon){
-        new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(payPalLocator));
         WebElement couponInputField = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(couponFieldLocator));
         couponInputField.sendKeys(coupon);
         WebElement applyCouponBtn = new WebDriverWait(driver,20)
-                .until(ExpectedConditions.elementToBeClickable(applyCouponLocator));
+                .until(ExpectedConditions.presenceOfElementLocated(applyCouponLocator));
         applyCouponBtn.click();
         return this;
     }
