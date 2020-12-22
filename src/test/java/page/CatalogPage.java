@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class CatalogPage extends AbstractPage  {
 
     private final By closeModalLocator = By.xpath("//button[@class=\"gl-modal__close\"]");
-    private final By colorFilterLocator = By.xpath("//div[@data-auto-id = \"plp-collapsable-sidebar-item-container_Color\"]");
+    private final By colorFilterLocator = By.xpath("//span[@title= \"Color\"]");
     private final By colorLocator = By.xpath("//a[@title = \"Purple\"]");
     private final By itemByFilterLocator = By.xpath("//div[@data-grid-id = \"FZ0832\"]");
     private final By sortByDropdownLocator = By.xpath("//button[@title= \"Sort By\"]");
@@ -34,7 +34,7 @@ public class CatalogPage extends AbstractPage  {
 
     public CatalogPage applyColorFilter(){
         WebElement colorFilterBtn = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.elementToBeClickable(colorFilterLocator));
+                .until(ExpectedConditions.visibilityOfElementLocated(colorFilterLocator));
         colorFilterBtn.click();
         WebElement colorBtn = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(colorLocator));
