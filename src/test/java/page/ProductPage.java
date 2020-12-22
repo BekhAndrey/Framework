@@ -86,7 +86,7 @@ public class ProductPage extends AbstractPage {
 
     public BagPage openBagPage(){
         WebElement goToBagBtn = new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(goToBagLocator));
+                .until(ExpectedConditions.elementToBeClickable(goToBagLocator));
         goToBagBtn.click();
         return new BagPage(driver);
     }
